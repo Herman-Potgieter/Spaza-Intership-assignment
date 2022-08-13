@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SimpleCalcView extends StatelessWidget {
-  final TextEditingController costController = TextEditingController(text: '25.50');
-  final TextEditingController tenderController = TextEditingController(text: '50');
+  final TextEditingController costController =
+      TextEditingController(text: '25.50');
+  final TextEditingController tenderController =
+      TextEditingController(text: '50');
 
   void _calculateChange(BuildContext context) {
     BlocProvider.of<SimpleCalcCubit>(context).calculateWithMod(
@@ -22,7 +24,10 @@ class SimpleCalcView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Simple Calculator'),
-        actions: [IconButton(icon: Icon(Icons.refresh), onPressed: () => _clear(context))],
+        actions: [
+          IconButton(
+              icon: Icon(Icons.refresh), onPressed: () => _clear(context))
+        ],
       ),
       body: BlocBuilder<SimpleCalcCubit, SimpleCalcState>(
         builder: (context, state) {
@@ -41,13 +46,17 @@ class SimpleCalcView extends StatelessWidget {
                             Row(
                               children: [
                                 Expanded(child: Text('Product Cost:')),
-                                Expanded(child: TextField(controller: costController)),
+                                Expanded(
+                                    child:
+                                        TextField(controller: costController)),
                               ],
                             ),
                             Row(
                               children: [
                                 Expanded(child: Text('Tender Amount:')),
-                                Expanded(child: TextField(controller: tenderController)),
+                                Expanded(
+                                    child: TextField(
+                                        controller: tenderController)),
                               ],
                             ),
                           ],
@@ -58,7 +67,9 @@ class SimpleCalcView extends StatelessWidget {
                       offstage: state.breakdown.isNotEmpty,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Center(child: Text('See simple_calc_cubit.dart TODO')),
+                        child: Center(
+                            child: Text(
+                                'Make sure your inserted tender is valid a ZAR denomination and greater that the cost. \n\nPress calculate :)')),
                       ),
                     ),
                     Offstage(
@@ -69,10 +80,15 @@ class SimpleCalcView extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Total change R${state.totalChange}', style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text('Total change R${state.totalChange}',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
                               ListView(
                                 shrinkWrap: true,
-                                children: state.breakdown.entries.map((entry) => Text('R${entry.key} x ${entry.value}')).toList(),
+                                children: state.breakdown.entries
+                                    .map((entry) =>
+                                        Text('R${entry.key} x ${entry.value}'))
+                                    .toList(),
                               )
                             ],
                           ),

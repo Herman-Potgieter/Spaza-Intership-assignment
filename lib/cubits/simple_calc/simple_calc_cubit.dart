@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-// import 'dart:math';
 
 part 'simple_calc_state.dart';
 
@@ -12,15 +11,33 @@ class SimpleCalcCubit extends Cubit<SimpleCalcState> {
   void calculateWithMod(double? cost, double? tender) {
     if (cost == null || tender == null) return;
 
+    if ((tender != validDenominations) && (cost > tender)) return;
+
     num totalChange = tender - cost;
     Map<String, num> breakdown = {};
 
-    // TODO - Calculate your breakdown here, put the results in a map, with the validDenominations as the key, and the result as the value
+    //totalchange = 50-25.50 = 24.50
+    //forEach element in validDenominations...
+    //(24.50/200).floor() = 0 then (24.50 MOD 200) = 24.50
+    //(24.50/50).floor() = 0 then (24.50 MOD 50) = 24.50
+    //(24.50/20).floor() = 1 then (24.50 MOD 20) = 4.50
+    //(4.50/10).floor() = 0 then (4.50 MOD 10) = 4.50
+    //(4.50/5).floor() = 0 then (4.50 MOD 5) = 4.50
+    //(4.50/2).floor() = 2 then (4.50 MOD 2) = 0.50
+    //(0.50/1).floor() = 0 then (0.50 MOD 1) = 0.50
+    //(0.50/0.5).floor() = 1 then (0.50 MOD 0.5) = 0
+    //(0/0.2).floor() = 0 then (0 MOD 0.2) = 0
 
-    for (int i = 0; i <= validDenominations.length; i++) {
-      var number = totalChange / validDenominations[i].floor();
-      totalChange = (totalChange % validDenominations[i]);
-    }
+    validDenominations.forEach(
+      (element) {
+        var number = (totalChange / element).floor();
+        totalChange = totalChange % element;
+        breakdown['${element}'] = number;
+      },
+    );
+
+    totalChange = tender - cost;
+
     emit(SimpleCalcCalculated(breakdown, totalChange));
   }
 
