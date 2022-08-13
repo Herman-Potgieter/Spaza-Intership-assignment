@@ -32,7 +32,9 @@ class SimpleCalcCubit extends Cubit<SimpleCalcState> {
       (element) {
         var number = (totalChange / element).floor();
         totalChange = totalChange % element;
-        breakdown['${element}'] = number;
+        if (number > 0) {
+          breakdown['${element}'] = number;
+        }
       },
     );
 
